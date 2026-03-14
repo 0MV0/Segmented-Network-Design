@@ -1,0 +1,93 @@
+
+-------Configurations for F3_SW1-------- 
+
+version 12.2(37)SE1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+no service password-encryption
+!
+hostname Switch
+!
+!
+no profinet
+!
+spanning-tree mode rapid-pvst
+!
+interface FastEthernet0/1
+ switchport access vlan 10
+ switchport trunk allowed vlan 10,20,30
+ switchport trunk encapsulation dot1q
+!
+interface FastEthernet0/2
+ switchport access vlan 30
+ switchport trunk allowed vlan 10,20,30
+ switchport trunk encapsulation dot1q
+!
+interface FastEthernet0/3
+ switchport access vlan 20
+ switchport trunk allowed vlan 10,20,30
+ switchport trunk encapsulation dot1q
+!
+interface GigabitEthernet0/1
+ switchport trunk allowed vlan 10,20,30
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface GigabitEthernet0/2
+ switchport trunk allowed vlan 10,20,30
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan10
+ mac-address 0009.7ccb.9001
+ ip address 192.168.10.3 255.255.255.0
+!
+interface Vlan20
+ mac-address 0009.7ccb.9002
+ ip address 192.168.20.3 255.255.255.0
+!
+interface Vlan30
+ mac-address 0009.7ccb.9003
+ ip address 192.168.30.3 255.255.255.0
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+ip access-list extended ACL_VLAN10
+ permit ip 192.168.10.0 0.0.0.255 192.168.10.0 0.0.0.255
+ deny ip any 192.168.20.0 0.0.0.255
+ deny ip any 192.168.30.0 0.0.0.255
+ permit ip any any
+ip access-list extended ACL_VLAN20
+ permit ip 192.168.20.0 0.0.0.255 192.168.20.0 0.0.0.255
+ deny ip any 192.168.30.0 0.0.0.255
+ deny ip any 192.168.10.0 0.0.0.255
+ permit ip any any
+ip access-list extended ACL_VLAN30
+ permit ip 192.168.30.0 0.0.0.255 192.168.30.0 0.0.0.255
+ deny ip any 192.168.10.0 0.0.0.255
+ deny ip any 192.168.20.0 0.0.0.255
+ permit ip any any
+!
+!
+!
+!
+!
+!
+line con 0
+!
+line aux 0
+!
+line vty 0 4
+ login
+!
+!
+!
+!
+end
